@@ -1,0 +1,124 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #000000; /* Dark background color for the whole page */
+  color: #e0e0e0; /* Light text color for readability */
+  margin: 0;
+  padding: 0;
+}
+
+/* App Container */
+.app-container {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Chat Container */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 85vh;
+  width: 100vw;
+  max-width: 600px;
+  margin: 30px auto;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Slightly darker shadow */
+  background-color: #1e1e1e; /* Dark background for chat */
+  overflow: hidden;
+  border: 1px solid #333; /* Slightly lighter border */
+}
+
+/* Messages Area */
+.messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  background-color: #121212; /* Darker background for messages area */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Individual Message */
+.message {
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  max-width: 70%;
+  line-height: 1.4;
+  word-break: break-word;
+  position: relative;
+  color: #e0e0e0; /* Light text color for messages */
+}
+
+/* User Message */
+.message.User {
+  background-color: #2e7d32; /* Darker green for user messages */
+  align-self: flex-end;
+  border-bottom-right-radius: 0;
+}
+
+/* Chatbot Message */
+.message.Chatbot {
+  background-color: #333; /* Dark background for chatbot messages */
+  color: #e0e0e0; /* Light text color */
+  align-self: flex-start;
+  border-bottom-left-radius: 0;
+}
+
+/* Typing Indicator */
+.typing-indicator {
+  font-style: italic;
+  color: #888; /* Light gray color for typing indicator */
+  margin: 10px 0;
+}
+
+/* Input Container */
+.input-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background: #1e1e1e; /* Dark background for input area */
+  border-top: 1px solid #333;
+}
+
+/* Input Field */
+input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #444; /* Dark border for input field */
+  border-radius: 20px;
+  margin-right: 10px;
+  font-size: 16px;
+  background-color: #333; /* Dark background for input field */
+  color: #e0e0e0; /* Light text color for input */
+}
+
+/* Send Button */
+button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px;
+  background-color: #25D366; /* WhatsApp green */
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #128C7E; /* Darker green for hover */
+}
+
+button:disabled {
+  background-color: #666; /* Darker gray for disabled button */
+  cursor: not-allowed;
+}
+
+/* Lottie Player */
+.lottie-player-container {
+  display:inline-block;
+  
+}
