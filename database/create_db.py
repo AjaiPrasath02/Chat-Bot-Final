@@ -3,8 +3,11 @@ import sqlite3
 def create_database():
     try:
         # Connect to the SQLite database
-        conn = sqlite3.connect('D:/C5i/Gladwin/C5i/backend/database.db')
+        conn = sqlite3.connect('D:/C5i/Chat bot final/Chat-Bot-Final/backend/database.db')
         cursor = conn.cursor()
+
+        # Enforce foreign key constraints
+        cursor.execute("PRAGMA foreign_keys = ON;")
 
         # Create tables
         cursor.executescript('''
@@ -25,11 +28,16 @@ def create_database():
             CREATE TABLE IF NOT EXISTS chat_history (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER,
-                chat_text TEXT NOT NULL,
+                user_text TEXT NOT NULL,
+                bot_text TEXT NOT NULL,
                 timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (user_id) REFERENCES users(id)
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             );
         ''')
+        
+        # cursor.execute('''
+        #                DROP TABLE chat_history;
+        #                ''')
 
         # Insert some initial data into the products table
         cursor.execute('''

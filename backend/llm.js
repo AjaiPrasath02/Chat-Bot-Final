@@ -17,8 +17,24 @@ export async function queryLLM(message) {
         price REAL,
         quantity INTEGER
     );`;
+    const schema2=`
+     CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT UNIQUE NOT NULL,
+                email TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL
+            );`;
+    const schema3=`
+    CREATE TABLE IF NOT EXISTS chat_history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER,
+                chat_text TEXT NOT NULL,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            );
+    `
 
-    const prompt = schema1 + message + " Generate only a SQL query based on this schema, without any extra information. If the query is invalid, respond with 'Invalid Query'.";
+    const prompt = schema1 +schema2+schema3+ message + " Generate only a SQL query based on this schema, without any extra information. If the query is invalid, respond with 'Invalid Query'.";
 
     // Use the Gemini API to process the prompt
     const result = await model.generateContent(prompt);
