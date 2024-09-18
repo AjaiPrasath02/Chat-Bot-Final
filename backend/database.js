@@ -4,7 +4,7 @@ import { open } from 'sqlite';  // Needed for promises
 // SQLite database connection (this opens the file, or creates it if it doesn't exist)
 const connectToDB = async () => {
   return open({
-    filename: 'database.db',  // Specify your database file
+    filename: 'database1.db',  // Specify your database file
     driver: sqlite3.Database
   });
 };

@@ -3,7 +3,7 @@ import sqlite3
 def create_database():
     try:
         # Connect to the SQLite database
-        conn = sqlite3.connect('D:/C5i/Chat bot final/Chat-Bot-Final/backend/database.db')
+        conn = sqlite3.connect('D:/C5i/Chat bot final/Chat-Bot-Final/backend/database1.db')
         cursor = conn.cursor()
 
         # Enforce foreign key constraints
@@ -33,11 +33,15 @@ def create_database():
                 timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             );
+
+            CREATE TABLE IF NOT EXISTS sales (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                product_name TEXT NOT NULL,
+                quantity INTEGER NOT NULL,
+                price REAL NOT NULL,
+                sales_date DATE NOT NULL
+            );
         ''')
-        
-        # cursor.execute('''
-        #                DROP TABLE chat_history;
-        #                ''')
 
         # Insert some initial data into the products table
         cursor.execute('''
@@ -48,9 +52,19 @@ def create_database():
             ON CONFLICT(product_name) DO NOTHING;
         ''')
 
+        # Insert some initial data into the sales table with random past dates
+        cursor.executescript('''
+            INSERT INTO sales (product_name, quantity, price, sales_date) VALUES
+                ('Laptop', 2, 1999.98, '2023-01-15'),
+                ('Smartphone', 1, 499.99, '2022-11-22'),
+                ('Headphones', 5, 749.95, '2023-03-05'),
+                ('Laptop', 1, 999.99, '2023-02-10'),
+                ('Smartphone', 3, 1499.97, '2022-12-08');
+        ''')
+
         # Commit the changes and close the connection
         conn.commit()
-        print('Database created and initial data inserted.')
+        print('Database created, tables added, and initial data inserted.')
     except sqlite3.Error as e:
         print('Error creating database:', e)
     finally:

@@ -1,24 +1,31 @@
-import dotenv from 'dotenv';
+
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// Load environment variables from .env file
-dotenv.config();
 
 // Initialize Google Generative AI with your API key
-const genAI = new GoogleGenerativeAI('AIzaSyBxxLjQUNWm1axTxk6g2nIXT2a_KdYtHoQ');
+const genAI = new GoogleGenerativeAI('AIzaSyBxxLjQUNWm1axTxk6g2nIXT2a_KdYtHoQ'); // Make sure to use environment variable for API key
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 export async function queryLLM(message) {
   try {
-    const schema1 = `
+    // Updated schema to include all tables
+    const schema = `
     CREATE TABLE IF NOT EXISTS products (
-        id INTEGER PRIMARY KEY,
-        product_name TEXT UNIQUE,
-        price REAL,
-        quantity INTEGER
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        product_name TEXT UNIQUE NOT NULL,
+        price REAL NOT NULL,
+        quantity INTEGER NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS sales (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        product_name TEXT NOT NULL,
+        quantity INTEGER NOT NULL,
+        price REAL NOT NULL,
+        sales_date DATE NOT NULL
     );`;
 
-    const prompt = schema1 + '\nPrompt : ' + message + ".\nGenerate a sqlite query based on this schema, without any extra information. If the prompt is irrelevant to the given schema, give response as 'Invalid Query' only.";
+    const prompt = schema + '\nPrompt: ' + message + '.\nGenerate a sqlite query based on this schema, without any extra information. If the prompt is irrelevant to the given schema, give response as "Invalid Query" only.';
 
     // Use the Gemini API to process the prompt
     const result = await model.generateContent(prompt);
