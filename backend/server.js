@@ -66,7 +66,7 @@ app.post('/chat', async (req, res) => {
     console.log('LLM response:', llmResponse);
 
     if (llmResponse.toLowerCase().includes('invalid query')) {
-      res.json({ response: 'Invalid query.', type: 1 });
+      res.json({ response: 'Invalid query, please give a valid query based on schema', type: 1 });
     } else {
       const dbResponse = await queryDatabase(llmResponse);
 

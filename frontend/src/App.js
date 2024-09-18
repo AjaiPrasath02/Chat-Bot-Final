@@ -1,12 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Navigate} from 'react-router-dom'; // Import useNavigate for redirecting
 import BasicTable from './table';
 import './App.css';
+//import { Link } from 'react-router-dom';
+import { Player } from '@lottiefiles/react-lottie-player'; // Import the Lottie Player
 
-function App({ userId }) {
+
+function App({ userId, setUserId }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
+  const [isLoggedOut, setIsLoggedOut] = useState(false); // State to track logout status
+
+  //const navigate = useNavigate(); // useNavigate hook for redirecting
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -20,16 +27,14 @@ function App({ userId }) {
         body: JSON.stringify({ userId }),
       });
       const data = await response.json();
-      console.log(data.response);
       setMessages(data.response);
     };
-    fetchChatHistory();  
+    fetchChatHistory();
     return () => setMessages(null);
-  }, [userId]); // Make sure to include userId as a dependency
-  
+  }, [userId]);
+
   useEffect(() => {
     scrollToBottom();
-    console.log(messages);
   }, [messages]);
 
   const sendMessage = async () => {
@@ -52,7 +57,6 @@ function App({ userId }) {
         { text: data.response, user: 'Chatbot' },
       ]);
     } catch (error) {
-      console.error('Error:', error);
       setMessages((prevMessages) => [
         ...prevMessages,
         { text: 'Error: Could not connect to the server.', user: 'Chatbot' },
@@ -62,28 +66,57 @@ function App({ userId }) {
     }
   };
 
-  return (
-    <div className="chat-container">
-      <div className="messages">
-        {messages && messages.map((msg, index) => (
-          <div key={index} className={`message ${msg.user}`}>
-            {msg.text && (msg.text.startsWith('[') ? <BasicTable data={msg.text} /> : msg.text)}
-          </div>
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
+  const handleLogout = () => {
+    localStorage.removeItem('userId'); // Remove userId from localStorage
+    setUserId(null);
+    setIsLoggedOut(true); // Set logged out state to true
+  };
 
-      <div className="input-container">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your message..."
-          disabled={isTyping}
-        />
-        <button onClick={sendMessage} disabled={isTyping}>
-          {isTyping ? '...' : 'Send'}
-        </button>
+  if (isLoggedOut) {
+    return <Navigate to="/login" />; // Redirect to login page after logout
+  }
+
+  return (
+    <div>
+      {/* Logout Button outside the app-container */}
+      <button className="logout-button" onClick={handleLogout}>
+        Logout
+      </button>
+
+      <div className="app-container">
+        <div className="bot-title">
+          <span>Smart Bot</span>
+          <Player
+            autoplay
+            loop
+            src="https://lottie.host/31668093-ff5d-4e08-9585-08d197cbe5b0/aTvtm2oBU9.json"
+            style={{ height: '60px', width: '100px' }}
+          />
+        </div>
+
+        <div className="chat-container">
+          <div className="messages">
+            {messages && messages.map((msg, index) => (
+              <div key={index} className={`message ${msg.user}`}>
+                {msg.text && (msg.text.startsWith('[') ? <BasicTable data={msg.text} /> : msg.text)}
+              </div>
+            ))}
+            <div ref={messagesEndRef} />
+          </div>
+
+          <div className="input-container">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type your message..."
+              disabled={isTyping}
+            />
+            <button onClick={sendMessage} disabled={isTyping}>
+              {isTyping ? '...' : 'Send'}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -13,7 +13,23 @@ body {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* Bot Title with Lottie Player */
+.bot-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.0rem;
+  color: #25D366; /* WhatsApp green for bot title */
+  margin-top: 10px;
+}
+
+.bot-title span {
+  margin-right: 0px;
+  margin-left:55px;
 }
 
 /* Chat Container */
@@ -117,23 +133,21 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Lottie Player */
-.lottie-player-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
+/* Logout Button */
+.logout-button {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  padding: 10px 20px;
+  background-color: #fa0000f3; /* Red background for logout button */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left:100px;
 }
 
-.bot-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: #25D366;
-  margin-bottom: 10px;
-}
-
-.bot-title span {
-  margin-right: 10px;
+.logout-button:hover {
+  background-color: #cc0000; /* Darker red on hover */
 }

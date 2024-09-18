@@ -25,7 +25,7 @@ function MainApp() {
         <Route path="/" element={<Login setUserId={setUserId} />} />
         <Route path="/login" element={!userId ? <Login setUserId={setUserId} /> : <App userId={userId} />} />
         <Route path="/register" element={!userId ? <Register setUserId={setUserId} /> : <App userId={userId} />} />
-        <Route path="/chat" element={userId ? <App userId={userId} /> : <Login setUserId={setUserId} />} />
+        <Route path="/chat" element={userId ? <App userId={userId} setUserId={setUserId} /> : <Login setUserId={setUserId} />} />
       </Routes>
     </Router>
   );
