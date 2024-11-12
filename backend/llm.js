@@ -33,7 +33,6 @@ export async function queryLLM(message) {
 
     console.log('LLM generated query:', query);
 
-    // Check for invalid query response
     if (query.toLowerCase().includes('invalid query') || query.toLowerCase().includes('error')) {
       return 'Invalid Query';
     }

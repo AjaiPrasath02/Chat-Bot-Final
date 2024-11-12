@@ -27,7 +27,7 @@ const Login = ({ setUserId }) => {
         setError(data.message);
       }
     } catch (err) {
-      setError('Error logging in. Please try again.');
+      setError('Error logging in. Please Try again after some time.');
     }
   };
 
